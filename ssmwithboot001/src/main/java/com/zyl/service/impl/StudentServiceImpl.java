@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 @Service("studentService")
 public class StudentServiceImpl implements StudentService {
@@ -20,9 +21,17 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Student> findStudentByName(String name) {
+    public Student findStudentByName(String name) {
         return studentDao.findStudentByName(name);
     }
 
+    @Override
+    public List<Student> findStudentsByName(String name) {
+        return studentDao.findStudentsByName(name);
+    }
 
+    @Override
+    public Integer updateStudentByName(Map<String, Object> params) {
+        return studentDao.updateStudentByName(params);
+    }
 }

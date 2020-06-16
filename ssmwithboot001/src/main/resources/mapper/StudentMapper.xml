@@ -15,4 +15,10 @@
         SELECT * from Student where name = #{name}
     </select>
 
+    <update id="updateStudentByName" parameterType="java.util.Map">
+        <if test="name !=null and age !=null">
+            UPDATE Student set age = #{age} where name = #{name}
+        </if>
+    </update>
+
 </mapper>

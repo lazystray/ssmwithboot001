@@ -10,14 +10,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository("myBatisBaseDao")
+
+/**
+ * 注意两种查询中获取sqlsession的方法，this.sqlSessionTemplate和this.getSqlSession()
+ */
 public class MyBatisBaseDao<T> extends SqlSessionDaoSupport{
 
     private String nameSpace;//命名空间，可省略，namespace是为了防止不同MapperXml中statement重名的查询
 
     public MyBatisBaseDao() {
     }
+
+
 
     public MyBatisBaseDao(String nameSpace) {
         this.nameSpace = nameSpace;
@@ -66,11 +73,18 @@ public class MyBatisBaseDao<T> extends SqlSessionDaoSupport{
         return this.getSqlSession().selectList(this.createStatementByName(statementName), params);
     }
 
+    public T queryOne(String statementName,Object params) {
+        if (params == null) {
+            return null;
+        }
+        return this.getSqlSession().selectOne(this.createStatementByName(statementName), params);
+    }
+
     public int insert(T entity) {
         if (entity == null) {
             throw new RuntimeException("T is null");
         }
-        return this.sqlSessionTemplate.insert(this.createStatementByName(SQL_INSERT), entity);
+        return this.getSqlSession().insert(this.createStatementByName(SQL_INSERT), entity);
     }
 
     public int insert(List list) {
@@ -84,14 +98,21 @@ public class MyBatisBaseDao<T> extends SqlSessionDaoSupport{
         if (entity == null) {
             throw new RuntimeException("");
         }
-        return this.sqlSessionTemplate.update(this.createStatementByName(SQL_UPDATE), entity);
+        return this.getSqlSession().update(this.createStatementByName(SQL_UPDATE), entity);
+    }
+
+    public int updateByParams(String statementName,Map<String,Object> params) {
+        if (params == null) {
+            throw new RuntimeException("");
+        }
+        return this.getSqlSession().update(this.createStatementByName(statementName), params);
     }
 
     public int update(List list) {
         if (list == null || list.size() <= 0) {
             return 0;
         }
-        return this.sqlSessionTemplate.update(this.createStatementByName(SQL_UPDATE), list);
+        return this.getSqlSession().update(this.createStatementByName(SQL_UPDATE), list);
     }
 
     public int delete(T entity) {

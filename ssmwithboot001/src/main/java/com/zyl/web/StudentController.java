@@ -53,7 +53,7 @@ public class StudentController {
         System.out.println("========"+System.getProperty("file.encoding"));
         /*System.setProperty("file.encoding","UTF-8");
         System.out.println("========"+System.getProperty("file.encoding"));*/
-        List<Student> studentList = studentService.findStudentByName("亚索");
+        List<Student> studentList = studentService.findStudentsByName("亚索");
         JSONArray jsonArray= JSONArray.parseArray(JSON.toJSONString(studentList));
         logger.info("getAllStudent response {}",jsonArray);
         PrintWriter printWriter = response.getWriter();

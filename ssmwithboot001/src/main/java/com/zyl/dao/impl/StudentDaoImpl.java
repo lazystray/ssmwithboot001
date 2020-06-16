@@ -22,9 +22,21 @@ public class StudentDaoImpl extends MyBatisBaseDao<Student> implements IStudentD
     }
 
     @Override
-    public List<Student> findStudentByName(String name) {
+    public List<Student> findStudentsByName(String name) {
         Map<String,Object> params = new HashMap<>();
         params.put("name",name);
         return super.queryForList("findStudentByName",params);
+    }
+
+    @Override
+    public Student findStudentByName(String name) {
+        Map<String,Object> params = new HashMap<>();
+        params.put("name",name);
+        return super.queryOne("findStudentByName",params);
+    }
+
+    @Override
+    public Integer updateStudentByName(Map<String,Object> params) {
+        return super.updateByParams("updateStudentByName",params);
     }
 }
